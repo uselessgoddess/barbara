@@ -1,0 +1,13 @@
+[package]
+name = "barbara"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+serde_yaml = "0.8.20"
+clap = "3.0.0-beta.5"
+regex = "1.5.4"
+async-std = { version = "1.10.0", features = ["attributes"] }
+colored = "2.0.0"
+async-recursion = "0.3.2"
