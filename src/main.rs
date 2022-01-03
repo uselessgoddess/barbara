@@ -13,6 +13,7 @@ use clap::Parser;
 use colored::Colorize;
 use regex::Regex;
 use serde_yaml::Value;
+use clap_derive::Parser;
 
 /// Tool for conan
 #[derive(Parser)]

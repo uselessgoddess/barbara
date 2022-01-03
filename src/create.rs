@@ -7,9 +7,10 @@ use regex::Regex;
 use async_recursion::async_recursion;
 
 use serde_yaml::{Mapping, Value};
+use clap_derive::Parser;
 
-#[derive(clap::Parser, Clone)]
 /// Wrapper on `conan create`
+#[derive(Parser, Clone)]
 pub struct Create {
     /// Path to [package folder]/[pattern folder]
     path: String,
