@@ -1,43 +1,37 @@
-#![feature(path_try_exists)]
-#![feature(in_band_lifetimes)]
+#![feature(fs_try_exists)]
 
 mod create;
 
-use std::error::Error;
-use std::ffi::OsString;
-use std::fs;
-use std::fs::File;
-use std::path::Path;
-use std::process::Command;
 use clap::Parser;
 use colored::Colorize;
 use regex::Regex;
 use serde_yaml::Value;
-use clap_derive::Parser;
 
 /// Tool for conan
-#[derive(Parser)]
+#[derive(clap::Parser)]
 #[clap(version = "1.0")]
 struct Options {
     #[clap(subcommand)]
     sub_cmd: SubCommand,
 }
 
-#[derive(Parser)]
+#[derive(clap::Subcommand)]
 enum SubCommand {
     Create(create::Create),
 }
 
-#[async_std::main]
-async fn main() -> Result<(), Box<dyn Error>> {
+fn main() {
     let opts: Options = Options::parse();
 
-    match opts.sub_cmd {
-        SubCommand::Create(create) => {
-            create::parse_create(create).await
-        }
-        _ => {
+    let result = match opts.sub_cmd {
+        SubCommand::Create(create) => create::parse_create(create),
+        #[allow(unreachable_patterns)]
+        _non_exhaustive => {
             todo!()
         }
+    };
+
+    if let Err(err) = result {
+        println!("{}: {}", "ERROR".red(), err.to_string().bold());
     }
 }
